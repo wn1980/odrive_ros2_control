@@ -12,6 +12,7 @@
   <!--<exec_depend>ros2_control_demo_description</exec_depend>-->
   <exec_depend>diffbot_description</exec_depend>
   <exec_depend>rrbot_description</exec_depend>
+  <exec_depend>controller_manager</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>
