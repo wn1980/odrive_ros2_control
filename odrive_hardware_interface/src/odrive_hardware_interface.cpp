@@ -292,10 +292,12 @@ return_type ODriveHardwareInterface::read(const rclcpp::Time&, const rclcpp::Dur
 
     CHECK_RW(
         odrive->read(serial_numbers_[1][i], AXIS__ENCODER__VEL_ESTIMATE + per_axis_offset * axes_[i], vel_estimate));
+    if(i==1) vel_estimate *= -1.0;
     hw_velocities_[i] = vel_estimate * 2 * M_PI;
 
     CHECK_RW(
         odrive->read(serial_numbers_[1][i], AXIS__ENCODER__POS_ESTIMATE + per_axis_offset * axes_[i], pos_estimate));
+    if(i==1) pos_estimate *= -1.0;
     hw_positions_[i] = pos_estimate * 2 * M_PI;
 
     CHECK_RW(odrive->read(serial_numbers_[1][i], AXIS__ERROR + per_axis_offset * axes_[i], axis_error));
@@ -338,6 +340,7 @@ return_type ODriveHardwareInterface::write(const rclcpp::Time&, const rclcpp::Du
 
       case integration_level_t::VELOCITY:
         input_vel = hw_commands_velocities_[i] / 2 / M_PI;
+        if(i==1) input_vel *= -1.;
         CHECK_RW(
             odrive->write(serial_numbers_[1][i], AXIS__CONTROLLER__INPUT_VEL + per_axis_offset * axes_[i], input_vel));
 
